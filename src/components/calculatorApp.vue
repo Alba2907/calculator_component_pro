@@ -3,17 +3,17 @@
     <table cellspacing="10">
       <tr>
         <td colspan="4">
-          <input type="text" v-model="result" disabled>
+          <input type="text"  v-model="result" disabled>
         </td>
       </tr>
       <tr>
-        <td class="button dark" @click="clear">C</td>
+        <td class="button dark"  @click="clear">C</td>
         <td class="button dark" @click="invert">+/-</td>
         <td class="button dark" @click="percent">%</td>
         <td class="button orange" @click="setOperator('/')">/</td>
       </tr>
       <tr>
-        <td class="button grey" @click="addNum(7)" >7</td>
+        <td class="button grey"  @click="addNum(7)" >7</td>
         <td class="button grey" @click="addNum(8)">8</td>
         <td class="button grey" @click="addNum(9)">9</td>
         <td class="button orange" @click="setOperator('*')" >*</td>
@@ -55,11 +55,16 @@ export default {
   methods: {
     // вносим цифры и делаем из них простейшую сущность
     addNum(number) {
+
       if(this.result == 0 || this.reset === true) {
+        console.log(
+            this.result, this.reset
+        )
         this.result = ''
         this.reset = false
       }
       this.result += number.toString()
+
     },
 
     // в зависимости от используемого оператора через цикл свитч выбираем расчет нужного выражения
@@ -107,17 +112,21 @@ export default {
         this.operator = operator;
         this.reset = true;
       },
-    // получаем результат и обнуляем вэлью, стираем дейсвтие оператора
+    // получаем результат и обнуляем вэлью, стираем дейсвтие оператора, меняем статус, чтобы при введении новых символов старые стирались
     equal() {
       this.calculate();
       this.value = 0;
       this.operator = undefined;
+      this.reset = !this.reset
       },
     // если в резалте еще нет точки, можем ее добавить
     addPoint() {
       if(!this.result.includes('.'))
         this.result += '.';
-    }
+    },
+
+
+
   }
 }
 
